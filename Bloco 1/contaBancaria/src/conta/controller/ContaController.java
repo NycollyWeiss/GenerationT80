@@ -17,13 +17,12 @@ public class ContaController implements ContaRepository {
 				conta.visualizar();
 			}
 		}
-	
 	public void cadastrarConta(Conta conta) {
 		listaContas.add(conta);
 			System.out.println("A conta " + conta.getNumero() + "foi criada com sucesso!");
 		
 	}
-	@Override
+
 	public void procurarPorNumero(int numero) {
 		var conta = buscarNaCollection(numero);
 		if(conta != null) {
@@ -35,8 +34,7 @@ public class ContaController implements ContaRepository {
 		
 		
 }
-	
-	 @Override
+
 	    public void deletar(int numero) {
 	        var conta = buscarNaCollection(numero);
 			
@@ -47,7 +45,7 @@ public class ContaController implements ContaRepository {
 				System.out.println("\nA Conta numero: " + numero + " não foi encontrada!");
 	    }
 	 
-	 @Override
+
 	    public void atualizar(Conta conta) {
 	        var buscaConta = buscarNaCollection(conta.getNumero());
 			
@@ -68,33 +66,57 @@ public class ContaController implements ContaRepository {
 		
 		}
 
+
+
+ @Override
+    public void sacar(int numero, double valor) {
+        var conta = buscarNaCollection(numero);
+		
+		if (conta != null) {
+			
+			if(conta.sacar(valor) == true)
+				System.out.println("\nO Saque na Conta numero: " + numero + " foi efetuado com sucesso!");		
+		
+		}else
+			System.out.println("\nA Conta numero: " + numero + " não foi encontrada!");
+        
+    }
+
+	@Override
+    public void depositar(int numero, double valor) {
+        var conta = buscarNaCollection(numero);
+		
+		if (conta != null) {
+			conta.depositar(valor);
+			System.out.println("\nO Depósito na Conta numero: " + numero + " foi efetuado com sucesso!");
+		}else
+			System.out.println("\nA Conta numero: " + numero + " não foi encontrada ou a Conta destino não é uma Conta Corrente!");
+    }
+		@Override
+	    public void transferir(int numeroOrigem, int numeroDestino, double valor) {
+	        var contaOrigem = buscarNaCollection(numeroOrigem);
+			var contaDestino = buscarNaCollection(numeroDestino);
+
+			if (contaOrigem != null && contaDestino != null) {
+								
+					if (contaOrigem.sacar(valor) == true) {
+						contaDestino.depositar(valor);
+						System.out.println("\nA Transferência foi efetuado com sucesso!");
+					}
+			}else
+				System.out.println("\nA Conta de Origem e/ou Destino não foram encontradas!");
+	  }
+
+	public int gerarNumero() {
+		return ++ numero;
+	}
 	@Override
 	public void cadastrar(Conta conta) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void sacar(int numero, float valor) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void depositar(int numero, float valor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void transferir(int numeroOrigem, int numeroDestino, double valor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public int gerarNumero() {
-		return ++ numero;
-	}
 	
 	
 
